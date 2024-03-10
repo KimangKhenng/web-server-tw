@@ -3,7 +3,9 @@ const userRouter = require("./routes/user.js")
 const tweetRoute = require("./routes/tweet.js")
 const app = express()
 const port = 3000
+var bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
 app.use('/api/users', userRouter)
 app.use('/api/tweets', tweetRoute)
 

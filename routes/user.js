@@ -8,6 +8,8 @@ const {
     updateUser } =
     require("../controllers/user.js")
 
+
+
 userRouter.get('/', getAllUsers)
 
 userRouter.get('/:userId', getUserById)
