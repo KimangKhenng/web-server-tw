@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
+    "generate": "node utils/generate.js",
+    "link": "node utils/link-relationship.js",
+    "generate-all": "npm run generate && npm run link",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "KK",

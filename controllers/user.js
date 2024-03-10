@@ -6,6 +6,12 @@ const getAllUsers = (asyncHandler(async (req, res) => {
     res.send(users)
 }))
 
+const getTweetsByUserId = (asyncHandler(async (req, res) => {
+    const id = req.params.userId
+    const users = await userModel.findById(id).populate('tweets').exec()
+    res.send(users)
+}))
+
 const getUserById = (async (req, res) => {
     const id = req.params.userId
     const user = await userModel.findById(id)
@@ -43,5 +49,6 @@ module.exports = {
     getUserById,
     createUser,
     deleteUser,
-    updateUser
+    updateUser,
+    getTweetsByUserId
 }
