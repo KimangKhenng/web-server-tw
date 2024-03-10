@@ -1,41 +1,41 @@
-const { users } = require("../data/users.js")
 const asyncHandler = require('express-async-handler')
+const { userModel } = require("../models/user.js")
 
 const getAllUsers = (asyncHandler(async (req, res) => {
+    const users = await userModel.find({})
     res.send(users)
 }))
 
-const getUserById = ((req, res) => {
+const getUserById = (async (req, res) => {
     const id = req.params.userId
-    const user = users.filter(item => {
-        return item.id == id
-    })
+    const user = await userModel.findById(id)
     res.send(user)
 })
 
-const createUser = (asyncHandler((req, res) => {
-    const { id, name, age, email } = req.body
-    const newUser = {
-        id,
-        name,
-        age,
-        email
-    }
-    if (users.some(item => {
-        return item.email == email
-    })) {
-        throw new Error("Duplicated User")
-    }
-    users.push(newUser)
-    res.send(newUser)
+const createUser = (asyncHandler(async (req, res) => {
+    const { username, dateOfBirth, email } = req.body
+    const parsedData = Date.parse(dateOfBirth)
+    const newUser = new userModel({
+        username,
+        email,
+        dateOfBirth: parsedData
+    })
+    const result = await newUser.save()
+    res.send(result)
 }))
 
-const deleteUser = ((req, res) => {
-    res.send("User deleted")
+const deleteUser = (async (req, res) => {
+    const id = req.params.userId
+    const result = await userModel.findByIdAndDelete(id)
+    res.send(result)
 })
 
-const updateUser = ((req, res) => {
-    res.send("User updated")
+const updateUser = (async (req, res) => {
+    const id = req.params.userId
+    const updated = await userModel.findByIdAndUpdate(id, req.body, {
+        new: true
+    })
+    res.send(updated)
 })
 
 module.exports = {

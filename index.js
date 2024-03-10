@@ -1,11 +1,15 @@
 const express = require('express')
 const userRouter = require("./routes/user.js")
 const tweetRoute = require("./routes/tweet.js")
+const dbConnect = require("./db/db.js")
 const app = express()
 const port = 3000
-var bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 
-app.use(bodyParser.json())
+dbConnect().catch((err) => { console.log(err) })
+
+// app.use(bodyParser.json())
+app.use(express.json())
 app.use('/api/users', userRouter)
 app.use('/api/tweets', tweetRoute)
 

@@ -8,13 +8,13 @@ const {
     updateUser } =
     require("../controllers/user.js")
 
-
+const { body } = require("express-validator")
 
 userRouter.get('/', getAllUsers)
 
 userRouter.get('/:userId', getUserById)
 
-userRouter.post('/', createUser)
+userRouter.post('/', body('email').trim().isEmail(), createUser)
 
 userRouter.delete('/:userId', deleteUser)
 
