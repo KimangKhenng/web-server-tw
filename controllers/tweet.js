@@ -12,9 +12,21 @@ const getTweetById = async (req, res) => {
     res.send(tweet)
 }
 
+const createTweet = async (req, res) => {
+    const { text } = req.body
+    console.log(req.user)
+    const newTweet = new tweetModel({
+        text: text,
+        byUser: req.user.id,
+        createdDate: Date.now()
+    })
+    const result = await newTweet.save()
+    res.send(result)
+}
+
 const getAllTweets = async (req, res) => {
     const tweets = await tweetModel.find({})
     res.send(tweets)
 }
 
-module.exports = { getTweetById, getAllTweets }
+module.exports = { getTweetById, getAllTweets, createTweet }

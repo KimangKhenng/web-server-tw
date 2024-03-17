@@ -10,6 +10,7 @@ var opts = {
 }
 
 const jwtStrategy = new JwtStrategy(opts, function (jwt_payload, done) {
+    console.log(jwt_payload)
     done(null, jwt_payload)
 })
 
