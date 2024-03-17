@@ -18,8 +18,6 @@ userRouter.get('/:userId', getUserById)
 
 userRouter.get('/:userId/tweets', getTweetsByUserId)
 
-userRouter.post('/', createUserValidator, handleValidation, createUser)
-
 userRouter.delete('/:userId', deleteUser)
 
 userRouter.put('/:userId', updateUser)

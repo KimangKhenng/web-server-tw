@@ -1,10 +1,8 @@
 const express = require('express')
 const tweetRoute = express.Router()
-const { getTweetById } = require("../controllers/tweet.js")
+const { getTweetById, getAllTweets } = require("../controllers/tweet.js")
 
-tweetRoute.get('/', (req, res) => {
-    res.send('Hello World 2!')
-})
+tweetRoute.get('/', getAllTweets)
 
 tweetRoute.get('/:id', getTweetById)
 

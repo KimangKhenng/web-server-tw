@@ -1,17 +1,33 @@
 const express = require('express')
 const userRouter = require("./routes/user.js")
 const tweetRoute = require("./routes/tweet.js")
+const authRoute = require("./routes/auth.js")
 const dbConnect = require("./db/db.js")
 const app = express()
+var compression = require('compression')
+var morgan = require('morgan')
 const port = 3000
-// const bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+var responseTime = require('response-time')
+const helmet = require('helmet')
+require('dotenv').config()
+const passport = require("passport")
+var cors = require('cors')
+const { jwtStrategy } = require("./auth/jwt-strategy.js")
 
 dbConnect().catch((err) => { console.log(err) })
-
-// app.use(bodyParser.json())
-app.use(express.json())
-app.use('/api/users', userRouter)
-app.use('/api/tweets', tweetRoute)
+app.use(cors())
+passport.use(jwtStrategy)
+app.use(helmet())
+app.use(bodyParser.json())
+app.use(morgan("common"))
+app.use(compression())
+app.use(responseTime())
+// Serve frontend from backend
+app.use(express.static('frontend/dist'))
+app.use('/api/auth', authRoute)
+app.use('/api/users', passport.authenticate('jwt', { session: false }), userRouter)
+app.use('/api/tweets', passport.authenticate('jwt', { session: false }), tweetRoute)
 
 
 app.listen(port, () => {
